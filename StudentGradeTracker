@@ -1,0 +1,9 @@
+package com.mycompany.studentgradetracker;
+public class StudentGradeTracker {
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.setVisible(true);
+        
+    }
+}
