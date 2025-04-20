@@ -1,0 +1,265 @@
+package com.mycompany.studentgradetracker;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+
+
+public class CheckGrade extends javax.swing.JFrame {
+
+ 
+    public CheckGrade() {
+        initComponents();
+    }
+
+ 
+    @SuppressWarnings("unchecked")
+   
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txtgrade = new javax.swing.JTextField();
+        btnback = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtlow = new javax.swing.JTextField();
+        txtavg = new javax.swing.JTextField();
+        txthigh = new javax.swing.JTextField();
+        btnsearch = new javax.swing.JButton();
+        clearbtn = new javax.swing.JButton();
+        btnexit1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 153, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("CHECK GRADE STATS");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(137, 137, 137))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Enter Grade : ");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 46, 150, 35));
+
+        txtgrade.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jPanel2.add(txtgrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 46, 102, 35));
+
+        btnback.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnback.setText("BACK");
+        btnback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbackActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnback, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 120, 35));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Average Percentage In Grade :");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 180, 275, 35));
+        jPanel2.add(filler1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 162, 558, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Highest Percentage In Grade :");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 233, 275, 35));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Lowest Percentage In Grade :");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 286, 275, 35));
+
+        txtlow.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtlow.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtlow, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 120, 35));
+
+        txtavg.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtavg.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtavg, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, 120, 35));
+
+        txthigh.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txthigh.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txthigh, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 234, 120, 35));
+
+        btnsearch.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnsearch.setText("SEARCH");
+        btnsearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsearchActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 108, 133, 35));
+
+        clearbtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        clearbtn.setText("CLEAR");
+        clearbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearbtnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(clearbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 110, 35));
+
+        btnexit1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnexit1.setText("EXIT");
+        btnexit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnexit1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnexit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 100, 35));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE))
+        );
+
+        pack();
+    }
+
+    private void clearbtnActionPerformed(java.awt.event.ActionEvent evt) {
+        txtgrade.setText("");
+        txtavg.setText("");
+        txthigh.setText("");
+        txtlow.setText("");
+    }
+
+    private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {
+        Student s1 = new Student();
+        s1.setVisible(true);
+        this.dispose();
+        
+    }
+
+    private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {
+         String grade = txtgrade.getText().trim();
+    
+    if (grade.equals("")) {
+        JOptionPane.showMessageDialog(this, "Please enter a grade.");
+        return;
+    }
+
+    try {
+        
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String url = "jdbc:mysql://localhost:3306/studentdatabase?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            Connection con =DriverManager.getConnection(url,"root","Krishna@2004");
+
+        
+        String query = "SELECT MIN(Percentage) as low, MAX(Percentage) as high, AVG(Percentage) as avg FROM student WHERE grade = ?";
+        
+        PreparedStatement pst = con.prepareStatement(query);
+        
+        
+        pst.setString(1, grade);
+        ResultSet rs = pst.executeQuery();
+
+        
+        if (rs.next()) {
+            txtlow.setText(String.format("%.2f", rs.getDouble("low")));
+            txthigh.setText(String.format("%.2f", rs.getDouble("high")));
+            txtavg.setText(String.format("%.2f", rs.getDouble("avg")));
+        } else {
+            JOptionPane.showMessageDialog(this, "No records found for this grade.");
+        }
+        
+        rs.close();
+        pst.close();
+        con.close();
+
+        
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+        
+    }
+
+    private void btnexit1ActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+
+    
+    public static void main(String args[]) {
+       
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CheckGrade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(CheckGrade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(CheckGrade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CheckGrade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CheckGrade().setVisible(true);
+            }
+        });
+    }
+
+    
+    private javax.swing.JButton btnback;
+    private javax.swing.JButton btnexit1;
+    private javax.swing.JButton btnsearch;
+    private javax.swing.JButton clearbtn;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txtavg;
+    private javax.swing.JTextField txtgrade;
+    private javax.swing.JTextField txthigh;
+    private javax.swing.JTextField txtlow;
+    
+}
