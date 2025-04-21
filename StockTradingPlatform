@@ -1,0 +1,131 @@
+import java.util.*;
+
+class Stock {
+    String name;
+    double price;
+
+    Stock(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class Portfolio {
+    Map<String, Integer> stocksOwned = new HashMap<>();
+    double balance;
+
+    Portfolio(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    void buyStock(String stockName, double price, int quantity) {
+        double totalCost = price * quantity;
+        if (balance >= totalCost) {
+            balance -= totalCost;
+            stocksOwned.put(stockName, stocksOwned.getOrDefault(stockName, 0) + quantity);
+            System.out.println("Bought " + quantity + " shares of " + stockName);
+        } else {
+            System.out.println("Not enough balance to buy!");
+        }
+    }
+
+    void sellStock(String stockName, double price, int quantity) {
+        int owned = stocksOwned.getOrDefault(stockName, 0);
+        if (owned >= quantity) {
+            balance += price * quantity;
+            stocksOwned.put(stockName, owned - quantity);
+            System.out.println("Sold " + quantity + " shares of " + stockName);
+        } else {
+            System.out.println("Not enough stocks to sell!");
+        }
+    }
+
+    void viewPortfolio(Map<String, Stock> market) {
+        System.out.println("\n--- Portfolio ---");
+        System.out.println("Balance: $" + balance);
+        double totalValue = balance;
+        for (String stockName : stocksOwned.keySet()) {
+            int qty = stocksOwned.get(stockName);
+            double price = market.get(stockName).price;
+            System.out.println(stockName + ": " + qty + " shares (Current Price: $" + price + ")");
+            totalValue += price * qty;
+        }
+        System.out.println("Total Portfolio Value: $" + totalValue);
+        System.out.println("------------------\n");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        
+        Map<String, Stock> market = new HashMap<>();
+        market.put("TCS", new Stock("TCS", 3500));
+        market.put("ALPHA", new Stock("ALPHA", 1500));
+        market.put("RELIANCE", new Stock("RELIANCE", 2500));
+        market.put("JIO", new Stock("JIO", 2000));
+        market.put("INFO", new Stock("INFO", 3000));
+
+        Portfolio portfolio = new Portfolio(10000); // Starting with ₹10,000
+
+        while (true) {
+
+            System.out.println("1. View Market");
+            System.out.println("2. Buy Stock");
+            System.out.println("3. Sell Stock");
+            System.out.println("4. View Portfolio");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- Market Stocks ---");
+                    for (Stock stock : market.values()) {
+                        System.out.println(stock.name + " - ₹" + stock.price);
+                    }
+                    System.out.println("----------------------\n");
+                    break;
+
+                case 2:
+                    System.out.println("Enter stock name to buy: ");
+                    String buyName = sc.next();
+                    if (!market.containsKey(buyName)) {
+                        System.out.println("Stock not found!");
+                        break;
+                    }
+                    System.out.println("Enter quantity: ");
+                    int buyQty = sc.nextInt();
+                    portfolio.buyStock(buyName, market.get(buyName).price, buyQty);
+                    break;
+
+                case 3:
+                    System.out.println("Enter stock name to sell: ");
+                    String sellName = sc.next();
+                    if (!market.containsKey(sellName)) {
+                        System.out.println("Stock not found!");
+                        break;
+                    }
+                    System.out.println("Enter quantity: ");
+                    int sellQty = sc.nextInt();
+                    portfolio.sellStock(sellName, market.get(sellName).price, sellQty);
+                    break;
+
+                case 4:
+                    portfolio.viewPortfolio(market);
+                    break;
+
+                case 5:
+                    System.out.println("Thank you for using the stock trading platform!");
+                    return;
+
+                default:
+                    System.out.println("Invalid option!");
+            }
+        }
+    }
+}
+
