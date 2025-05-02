@@ -1,0 +1,129 @@
+import java.util.*;
+class Room {
+    int roomNumber;
+    String category;
+    boolean isAvailable;
+
+    Room(int roomNumber, String category) {
+        this.roomNumber = roomNumber;
+        this.category = category;
+        this.isAvailable = true;
+    }
+}
+
+class Booking {
+    String customerName;
+    int roomNumber;
+    String category;
+    boolean paymentDone;
+
+    Booking(String customerName, int roomNumber, String category) {
+        this.customerName = customerName;
+        this.roomNumber = roomNumber;
+        this.category = category;
+        this.paymentDone = false;
+    }
+}
+
+public class Main {
+    static List<Room> rooms = new ArrayList<>();
+    static List<Booking> bookings = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Add sample rooms
+        rooms.add(new Room(101, "Standard"));
+        rooms.add(new Room(102, "Standard"));
+        rooms.add(new Room(201, "Deluxe"));
+        rooms.add(new Room(202, "Deluxe"));
+        rooms.add(new Room(301, "Normal"));
+        rooms.add(new Room(302, "Normal"));
+
+        System.out.println("**********************************\n");
+        System.out.println("--- Hotel Reservation System ---\n");
+        System.out.println("**********************************");
+        while (true) {
+            System.out.println("1. Search Available Rooms");
+            System.out.println("2. Make Reservation");
+            System.out.println("3. View Booking Details");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (ch) {
+                case 1 -> searchRooms();
+                case 2 -> makeReservation();
+                case 3 -> viewBookings();
+                case 4 -> {
+                    System.out.println("Thank you for using the system!");
+                    return;
+                }
+                default -> System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    static void searchRooms() {
+        System.out.print("Enter category (Standard/Deluxe/Normal): ");
+        String category = sc.nextLine();
+        boolean found = false;
+
+        System.out.println("Available " + category + " Rooms:");
+        for (Room room : rooms) {
+            if (room.category.equalsIgnoreCase(category) && room.isAvailable) {
+                System.out.println("Room No: " + room.roomNumber);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No available rooms in this category.");
+        }
+    }
+
+    static void makeReservation() {
+        System.out.print("Enter your name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter desired category (Standard/Deluxe/Normal): ");
+        String category = sc.nextLine();
+
+        for (Room room : rooms) {
+            if (room.category.equalsIgnoreCase(category) && room.isAvailable) {
+                room.isAvailable = false;
+                Booking booking = new Booking(name, room.roomNumber, category);
+
+
+                System.out.print("Pay now? (yes/no): ");
+                String pay = sc.nextLine();
+                if (pay.equalsIgnoreCase("yes")) {
+                    booking.paymentDone = true;
+                    System.out.println("Payment successful!");
+                } else {
+                    System.out.println("Reservation without payment!");
+                }
+
+                bookings.add(booking);
+                System.out.println("Room " + room.roomNumber + " booked successfully.");
+                return;
+            }
+        }
+
+        System.out.println("No available rooms in that category.");
+    }
+
+    static void viewBookings() {
+        if (bookings.isEmpty()) {
+            System.out.println("No bookings found.");
+            return;
+        }
+
+        for (Booking booking : bookings) {
+            System.out.println("\nName: " + booking.customerName);
+            System.out.println("Room No: " + booking.roomNumber);
+            System.out.println("Category: " + booking.category);
+            System.out.println("Payment Done: " + (booking.paymentDone ? "Yes" : "No"));
+        }
+    }
+}
